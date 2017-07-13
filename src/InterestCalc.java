@@ -1,6 +1,8 @@
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -8,8 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+
 public class InterestCalc extends JFrame {
-	/*private JLabel P;
+	private JLabel P;
 	private JTextField Pt;
 	private JLabel C;
 	private JTextField Ct;
@@ -18,11 +21,11 @@ public class InterestCalc extends JFrame {
 	private JLabel n;
 	private JTextField nt;
 	private JLabel t;
-	private JTextField tt;**/
+	private JTextField tt;
 	
 	public InterestCalc(){
 		super("Interest Calculator");
-		setLayout(new FlowLayout());
+		setLayout(new GridLayout(6,2));
 		
 		JLabel P = new JLabel("P or Future Value:");
 		add(P);
@@ -51,7 +54,11 @@ public class InterestCalc extends JFrame {
 		
 		JButton calc = new JButton("Calculate");
 		add(calc);
+		
+		theHandler handler = new theHandler();
+		calc.addActionListener(handler);
 	}
+	
 	public static void main(String args[]) {
 		InterestCalc IC = new InterestCalc();
 		
@@ -63,5 +70,14 @@ public class InterestCalc extends JFrame {
 		IC.setVisible(true);
 		
 	}
+	private class theHandler implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource()==C) {
+				
+			}
+		}
+	}
+	}
 
-}
+
+
