@@ -14,8 +14,8 @@ import javax.swing.JTextField;
 
 
 public class InterestCalc extends JFrame {
-	private JLabel P;
-	private JTextField Pt;
+	private JLabel A;
+	private JTextField At;
 	private JLabel C;
 	private JTextField Ct;
 	private JLabel r;
@@ -24,49 +24,52 @@ public class InterestCalc extends JFrame {
 	private JTextField nt;
 	private JLabel t;
 	private JTextField tt;
+	private JButton calculate;
 	private JLabel result;
 	private JPanel platform;
 	
 	public InterestCalc(){
+		/* Constructor sets up layout and adds all appropiate labels,
+		text-fields and buttons**/
 		super("Interest Calculator");
 		setLayout(new GridLayout(8,2));
 		
-		JLabel P = new JLabel("P or Future Value:");
-		add(P);
-		JTextField Pt = new JTextField(1);
-		add(Pt);
+		A = new JLabel("P or Future Value:");
+		add(A);
+		At = new JTextField(1);
+		add(At);
 		
-		JLabel C = new JLabel("C or Initial Deposit:");
+		C = new JLabel("C or Initial Deposit:");
 		add(C);
-		JTextField Ct = new JTextField(1);
+		Ct = new JTextField(1);
 		add(Ct);
 		
-		JLabel r = new JLabel("r or Interest Rate:");
+		r = new JLabel("r or Interest Rate:");
 		add(r);
-		JTextField rt = new JTextField(1);
+		rt = new JTextField(1);
 		add(rt);
 		
-		JLabel n = new JLabel("n or number of compoundings per year:");
+		n = new JLabel("n or number of compoundings per year:");
 		add(n);
-		JTextField nt = new JTextField(1);
+		nt = new JTextField(1);
 		add(nt);
 		
-		JLabel t = new JLabel("t or number of years invested:");
+		t = new JLabel("t or number of years invested:");
 		add(t);
-		JTextField tt = new JTextField(1);
+		tt = new JTextField(1);
 		add(tt);
 		
-		JButton calc = new JButton("Calculate");
-		add(calc);
+		calculate = new JButton("Calculate");
+		add(calculate);
 		
-		theHandler handler = new theHandler();
-		calc.addActionListener(handler);
-		
-		result = new JLabel();
+		result = new JLabel("hello");
 		platform = new JPanel();
 		platform.add(result);
 		add(platform);
 		
+		
+		theHandler1 handler1 = new theHandler1();
+		calculate.addActionListener(handler1);
 	}
 	
 	public static void main(String args[]) {
@@ -80,19 +83,33 @@ public class InterestCalc extends JFrame {
 		IC.setVisible(true);
 		
 	}
-	private class theHandler implements ActionListener{
+	private class theHandler1 implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource()==C) {
-				String Pval = Pt.getText();
+			// Only want action when the calculate button is pressed
+			if (e.getSource()==calculate) {
+				String Aval = At.getText();
 				String Cval = Ct.getText();
 				String tval = rt.getText();
 				String nval = nt.getText();
 				String rval = tt.getText();
-				if (Pval==null&&Cval!=null&&tval!=null&&nval!=null&&rval!=null){
-					double y = Math.pow((1+Integer.parseInt(rval))/(Integer.parseInt(nval)),Integer.parseInt(nval)* Integer.parseInt(tval));
-					result = new JLabel(Double.toString(y));
-					add(result);
-					pack();
+				double value;
+				// Scenario when A or final amount is the only text field not written in
+				if (Aval.equals("")&&!Cval.equals(null)&&!tval.equals(null)&&!nval.equals(null)&&!rval.equals(null)) {
+					Double Cvalue = Double.parseDouble(Cval);
+					Double tvalue = Double.parseDouble(tval);
+					Double nvalue = Double.parseDouble(nval);
+					Double rvalue = Double.parseDouble(rval);
+					value = Cvalue*Math.pow((1+((rvalue)/(nvalue))),nvalue*tvalue);
+					result.setText("Your A or future value is: $"+ Double.toString(value));
+				}	
+				// Scenario when C or initial amount is the only text field not written in
+				else if(!Aval.equals(null)&&Cval.equals("")&&!tval.equals(null)&&!nval.equals(null)&&!rval.equals(null)) {
+					Double Avalue = Double.parseDouble(Aval);
+					Double tvalue = Double.parseDouble(tval);
+					Double nvalue = Double.parseDouble(nval);
+					Double rvalue = Double.parseDouble(rval);
+					value = Avalue/(Math.pow(1+rvalue/nvalue,nvalue*tvalue));
+					result.setText("Your C or initial deposit must have been: $" +Double.toString(value));
 				}
 				
 			}
