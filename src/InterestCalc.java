@@ -29,7 +29,7 @@ public class InterestCalc extends JFrame {
 	private JPanel platform;
 	
 	public InterestCalc(){
-		/* Constructor sets up layout and adds all appropiate labels,
+		/* Constructor sets up layout and adds all appropriate labels,
 		text-fields and buttons**/
 		super("Interest Calculator");
 		setLayout(new GridLayout(8,2));
@@ -89,21 +89,20 @@ public class InterestCalc extends JFrame {
 			if (e.getSource()==calculate) {
 				String Aval = At.getText();
 				String Cval = Ct.getText();
-				String tval = rt.getText();
-				String nval = nt.getText();
 				String rval = tt.getText();
-				double value;
+				String nval = nt.getText();
+				String tval = rt.getText();
 				// Scenario when A (final amount) is the only text field not written in
 				if (Aval.equals("")&&!Cval.equals(null)&&!tval.equals(null)&&
 						!nval.equals(null)&&!rval.equals(null)) {
 					try {
 					    Double Cvalue = Double.parseDouble(Cval);
-					    Double tvalue = Double.parseDouble(tval);
 						Double nvalue = Double.parseDouble(nval);
 						Double rvalue = Double.parseDouble(rval);
+						Double tvalue = Double.parseDouble(tval);
 						Double Avalue = Cvalue*Math.pow((1+((rvalue)/(nvalue))),nvalue*tvalue);
-						result.setText("The A or final value is: $"+ 
-						    Double.toString(Avalue));
+						result.setText("<html>The A or final value is:<br> $"+ 
+						    Double.toString(Avalue) + "</html>");
 					} catch(NumberFormatException y) {
 						result.setText("Please enter valid numeric " +
 								"inputs for all fields");
@@ -114,18 +113,18 @@ public class InterestCalc extends JFrame {
 						!nval.equals(null)&&!rval.equals(null)) {
 				    try {
 				    	Double Avalue = Double.parseDouble(Aval);
-						Double tvalue = Double.parseDouble(tval);
 						Double nvalue = Double.parseDouble(nval);
 						Double rvalue = Double.parseDouble(rval);
+						Double tvalue = Double.parseDouble(tval);
 						Double Cvalue = Avalue/(Math.pow(1+rvalue/nvalue,nvalue*tvalue));
-						result.setText("The C or initial deposit must have been: $" + 
-						    Double.toString(Cvalue));
+						result.setText("<html>The C or initial deposit must have been:<br>$" + 
+						    Double.toString(Cvalue)+"</html>");
 				    } catch(NumberFormatException y) {
 				    	result.setText("Please enter valid numeric inputs for all fields");
 				    }
 					
 				}
-				// Schenario when t (time in years) is the only text field not written in
+				// Scenario when t (time in years) is the only text field not written in
 				else if (!Aval.equals(null)&&!Cval.equals(null)&&tval.equals("")&&
 						!nval.equals(null)&&!rval.equals(null)) {
 					try {
@@ -135,8 +134,8 @@ public class InterestCalc extends JFrame {
 					    Double rvalue = Double.parseDouble(rval);
 					    Double tvalue = Math.log(Avalue/Cvalue)/
 					    		(nvalue*Math.log(1+rvalue/nvalue));
-					    result.setText("The t or total elapsed time must have been:" + 
-					    		Double.toString(tvalue)+ " years");
+					    result.setText("<html>The t or total elapsed time must have been:<br>" + 
+					    		Double.toString(tvalue)+ " years</html>");
 					} catch(NumberFormatException y) {
 						result.setText("Please enter valid numeric inputs for all fields");
 					}
@@ -148,17 +147,37 @@ public class InterestCalc extends JFrame {
 					try {
 						Double Avalue = Double.parseDouble(Aval);
 					    Double Cvalue = Double.parseDouble(Cval);
-					    Double tvalue = Double.parseDouble(tval);
 					    Double nvalue = Double.parseDouble(nval);
+					    Double tvalue = Double.parseDouble(tval);
 					    Double rvalue = nvalue*(Math.pow((Avalue/Cvalue),1/(nvalue*tvalue)));
-					    result.setText("The r or interest rate must have been: "+ 
-					        Double.toString(rvalue)+" years");	
+					    result.setText("<html>The r or interest rate must have been: <br>"+ 
+					        Double.toString(rvalue)+" years</html>");	
 					} catch(NumberFormatException y) {
 						result.setText("Please enter valid numeric inputs for all fields");
 					}
 				}
+				// Scenario when all fields are filled in. Is either true or false
+				else if((!Aval.equals(null)&&!Cval.equals(null)&&!tval.equals(null)&&
+						!nval.equals(null)&&!rval.equals(null))) {
+					try {
+						Double Avalue = Double.parseDouble(Aval);
+					    Double Cvalue = Double.parseDouble(Cval);
+					    Double rvalue = Double.parseDouble(Cval);
+					    Double nvalue = Double.parseDouble(nval);
+					    Double tvalue = Double.parseDouble(tval);
+					    if(Avalue == Cvalue*Math.pow((1+((rvalue)/(nvalue))),nvalue*tvalue)) {
+					    	result.setText("Yes, this is true!");
+					    }
+					    else {
+					    	result.setText("No, this is false!");
+					    }
+					} catch(NumberFormatException y) {
+						result.setText("Please enter valid numeric inputs for all fields");
+				}
+		
+				}
 				else {
-					result.setText("This is not a valid input. All but one fields should be filled in");
+					result.setText("<html>This is not a valid input.<br> All but one fields should be filled in</html>");
 				}
 		}
 	}
