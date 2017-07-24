@@ -30,9 +30,9 @@ public class InterestCalc extends JFrame {
 	private JLabel result;
 	private JPanel platform;
 	
+	/** Constructor sets up layout and adds all appropriate labels,
+	 *  text-fields and buttons */
 	public InterestCalc(){
-		/* Constructor sets up layout and adds all appropriate labels,
-		text-fields and buttons**/
 		super("Interest Calculator");
 		setLayout(new GridLayout(7,2));
 		
@@ -74,13 +74,15 @@ public class InterestCalc extends JFrame {
 		platform.add(result);
 		add(platform);
 		
-		
-		theHandler1 handler1 = new theHandler1();
-		calculate.addActionListener(handler1);
-		cont.addActionListener(handler1);
-		noncont.addActionListener(handler1);
+		// Create new actionHandler object
+		actionHandler handler = new actionHandler();
+		// Add action listeners to the calculate button and to the radio buttons
+		calculate.addActionListener(handler);
+		cont.addActionListener(handler);
+		noncont.addActionListener(handler);
 	}
-	
+	/** Creates new InterestCalc object, and sets the size, and the visibility
+	 *  to true.*/
 	public static void main(String args[]) {
 		InterestCalc IC = new InterestCalc();
 		
@@ -92,16 +94,19 @@ public class InterestCalc extends JFrame {
 		IC.setVisible(true);
 		
 	}
-	private class theHandler1 implements ActionListener{
+	private class actionHandler implements ActionListener{
+		/** Actions when  the radio buttons (continuous and non-continuous
+		 *  compound options) are clicked, and when the the calculate button
+		 *  is clicked */
 		public void actionPerformed(ActionEvent e) {
-			// selecting continuous radio button should disable the non-continuous,
+			// Selecting continuous radio button should disable the non-continuous,
 			// and should disable the text box to get the number of compounds (n)
 			if(e.getSource()==cont) {
 				noncont.setSelected(false);
 				nt.setText(""); 
 				nt.setEnabled(false);  
 			}
-			// selecting non-continuous radio button should disable the continuous
+			// Selecting non-continuous radio button should disable the continuous
 			// and should enable the text box to get the number of compounds (n)
 			if(e.getSource()==noncont) {
 				cont.setSelected(false);
@@ -119,6 +124,7 @@ public class InterestCalc extends JFrame {
 		    		// Case when A (final amount) is the only text field not written in
 		    		if (Aval.equals("")&&!Pval.equals(null)&&!tval.equals(null)&&
 							!rval.equals(null)) {
+		    			// Try to parse all textFields with values in them to doubles
 						try {
 						    Double Pvalue = Double.parseDouble(Pval);
 							Double rvalue = Double.parseDouble(rval);
@@ -126,7 +132,9 @@ public class InterestCalc extends JFrame {
 							Double Avalue = Pvalue*Math.pow(Math.E,rvalue*tvalue);
 							result.setText("<html>The A or final value is:<br> $"+ 
 							    Double.toString(Avalue) + "</html>");
-						} catch(NumberFormatException y) {
+						} // If all textFields with values in them cannot be parsed to 
+						  // doubles, throw a NumberFormatException
+						catch(NumberFormatException y) {
 							result.setText("Please enter valid numeric " +
 									"inputs for all fields");
 						}	
@@ -134,6 +142,7 @@ public class InterestCalc extends JFrame {
 		    		// Case when P (initial amount) is the only text field not written in
 		    		else if(!Aval.equals(null)&&Pval.equals("")&&!tval.equals(null)&&
 							!rval.equals(null)) {
+		    			// Try to parse all textFields with values in them to doubles
 		    			try {
 						    Double Avalue = Double.parseDouble(Aval);
 							Double rvalue = Double.parseDouble(rval);
@@ -141,13 +150,17 @@ public class InterestCalc extends JFrame {
 							Double Pvalue = Avalue/(Math.pow(Math.E,rvalue*tvalue));
 							result.setText("<html>The P or initial deposit must have been:<br> $"+ 
 							    Double.toString(Pvalue) + "</html>");
-						} catch(NumberFormatException y) {
+						} // If all textFields with values in them cannot be parsed to 
+						  // doubles, throw a NumberFormatException 
+		    			catch(NumberFormatException y) {
 							result.setText("Please enter valid numeric " +
 									"inputs for all fields");
 						}	
 		    		}
+		    		// Case when t (time in years) is the only text field not written in
 		    		else if(!Aval.equals(null)&&!Pval.equals(null)&&tval.equals("")&&
 							!rval.equals(null)) {
+		    			// Try to parse all textFields with values in them to doubles
 		    			try {
 						    Double Avalue = Double.parseDouble(Aval);
 							Double Pvalue = Double.parseDouble(Pval);
@@ -155,13 +168,17 @@ public class InterestCalc extends JFrame {
 							Double tvalue = (Math.log(Avalue)-Math.log(Pvalue))/rvalue;
 							result.setText("<html>The t or total elapsed time must have been:<br>"+ 
 							    Double.toString(tvalue) + "</html>");
-						} catch(NumberFormatException y) {
+						} // If all textFields with values in them cannot be parsed to 
+						  // doubles, throw a NumberFormatException
+		    			catch(NumberFormatException y) {
 							result.setText("Please enter valid numeric " +
 									"inputs for all fields");
 						}	
 		    		}
+		    		// Case when r (interest rate) is the only text field not written in
 		    		else if(!Aval.equals(null)&&!Pval.equals(null)&&!tval.equals(null)&&
 							rval.equals("")) {
+		    			// Try to parse all textFields with values in them to doubles
 		    			try {
 						    Double Avalue = Double.parseDouble(Aval);
 							Double Pvalue = Double.parseDouble(Pval);
@@ -169,11 +186,39 @@ public class InterestCalc extends JFrame {
 							Double rvalue = (Math.log(Avalue)-Math.log(Pvalue))/tvalue;
 							result.setText("<html>The r or interest rate must have been:<br>"+ 
 							    Double.toString(rvalue) + "</html>");
-						} catch(NumberFormatException y) {
+						} // If all textFields with values in them cannot be parsed to 
+						  // doubles, throw a NumberFormatException 
+		    			catch(NumberFormatException y) {
 							result.setText("Please enter valid numeric " +
 									"inputs for all fields");
 						}
 		    		}
+		    		else if(!Aval.equals(null)&&!Pval.equals(null)&&!tval.equals(null)&&
+							!rval.equals(null)) {
+		    			// Try to parse all textFields with values in them to doubles
+		    			try {
+						    Double Avalue = Double.parseDouble(Aval);
+							Double Pvalue = Double.parseDouble(Pval);
+							Double rvalue = Double.parseDouble(rval);
+							Double tvalue = Double.parseDouble(rval);
+						    // Case when the values are valid, plus or minus .1
+						    if((Avalue<Pvalue*Math.pow(Math.E,rvalue*tvalue)+.1)&&
+						    		Avalue>Pvalue*Math.pow(Math.E, rvalue*tvalue)-.1)
+						    {
+						    	result.setText("Yes, this is true!");
+						    }
+						    else {
+						    	result.setText("No, this is false!");
+						} // If all textFields with values in them cannot be parsed to 
+						  // doubles, throw a NumberFormatException 
+		    			} catch(NumberFormatException y) {
+							result.setText("Please enter valid numeric " +
+									"inputs for all fields");
+						}
+		    		}
+		    		else {
+						result.setText("<html>This is not a valid input.<br> All but one fields should be filled in</html>");
+					}
 		    		
 		    	}
 		    	
@@ -182,6 +227,7 @@ public class InterestCalc extends JFrame {
 		    		// Case when A (final amount) is the only text field not written in
 					if (Aval.equals("")&&!Pval.equals(null)&&!tval.equals(null)&&
 							!nval.equals(null)&&!rval.equals(null)) {
+						// Try to parse all textFields with values in them to doubles
 						try {
 						    Double Pvalue = Double.parseDouble(Pval);
 							Double nvalue = Double.parseDouble(nval);
@@ -190,7 +236,9 @@ public class InterestCalc extends JFrame {
 							Double Avalue = Pvalue*Math.pow((1+((rvalue)/(nvalue))),nvalue*tvalue);
 							result.setText("<html>The A or final value is:<br> $"+ 
 							    Double.toString(Avalue) + "</html>");
-						} catch(NumberFormatException y) {
+						} // If all textFields with values in them cannot be parsed to 
+						  // doubles, throw a NumberFormatException 
+						catch(NumberFormatException y) {
 							result.setText("Please enter valid numeric " +
 									"inputs for all fields");
 						}
@@ -198,6 +246,7 @@ public class InterestCalc extends JFrame {
 					// Case when C (initial amount) is the only text field not written in
 					else if(!Aval.equals(null)&&Pval.equals("")&&!tval.equals(null)&&
 							!nval.equals(null)&&!rval.equals(null)) {
+						// Try to parse all textFields with values in them to doubles
 					    try {
 					    	Double Avalue = Double.parseDouble(Aval);
 							Double nvalue = Double.parseDouble(nval);
@@ -206,13 +255,16 @@ public class InterestCalc extends JFrame {
 							Double Pvalue = Avalue/(Math.pow(1+rvalue/nvalue,nvalue*tvalue));
 							result.setText("<html>The P or initial deposit must have been:<br>$" + 
 							    Double.toString(Pvalue)+"</html>");
-					    } catch(NumberFormatException y) {
+					    } // If all textFields with values in them cannot be parsed to 
+						  // doubles, throw a NumberFormatException
+					    catch(NumberFormatException y) {
 					    	result.setText("Please enter valid numeric inputs for all fields");
 					    }				
 					}
 					// Case when t (time in years) is the only text field not written in
 					else if (!Aval.equals(null)&&!Pval.equals(null)&&tval.equals("")&&
 							!nval.equals(null)&&!rval.equals(null)) {
+						// Try to parse all textFields with values in them to doubles
 						try {
 							Double Avalue = Double.parseDouble(Aval);
 						    Double Pvalue = Double.parseDouble(Pval);
@@ -222,15 +274,16 @@ public class InterestCalc extends JFrame {
 						    		(nvalue*Math.log(1+rvalue/nvalue));
 						    result.setText("<html>The t or total elapsed time must have been:<br>" + 
 						    		Double.toString(tvalue)+ " years</html>");
-						} catch(NumberFormatException y) {
+						} // If all textFields with values in them cannot be parsed to 
+						  // doubles, throw a NumberFormatException
+						catch(NumberFormatException y) {
 							result.setText("Please enter valid numeric inputs for all fields");
-						}		 
-						
-					
+						}		 				
 				}
 				// Case when r (interest rate) is the only text field not written in
 					else if (!Aval.equals(null)&&!Pval.equals(null)&&!tval.equals(null)&&
 							!nval.equals(null)&&rval.equals("")) {
+						// Try to parse all textFields with values in them to doubles
 						try {
 							Double Avalue = Double.parseDouble(Aval);
 						    Double Pvalue = Double.parseDouble(Pval);
@@ -239,13 +292,16 @@ public class InterestCalc extends JFrame {
 						    Double rvalue = nvalue*(Math.pow((Avalue/Pvalue),1/(nvalue*tvalue)));
 						    result.setText("<html>The r or interest rate must have been: <br>"+ 
 						        Double.toString(rvalue)+"</html>");	
-						} catch(NumberFormatException y) {
+						} // If all textFields with values in them cannot be parsed to 
+						  // doubles, throw a NumberFormatException 
+						catch(NumberFormatException y) {
 							result.setText("Please enter valid numeric inputs for all fields");
 						}
 					}
 					// Case when all fields are filled in. Is either true or false
 					else if((!Aval.equals(null)&&!Pval.equals(null)&&!tval.equals(null)&&
 							!nval.equals(null)&&!rval.equals(null))) {
+						// Try to parse all textFields with values in them to doubles
 						try {
 							Double Avalue = Double.parseDouble(Aval);
 						    Double Pvalue = Double.parseDouble(Pval);
@@ -253,7 +309,7 @@ public class InterestCalc extends JFrame {
 						    Double nvalue = Double.parseDouble(nval);
 						    Double tvalue = Double.parseDouble(tval);
 						    // Case when the values are valid, plus or minus .1
-						    if((Avalue<Pvalue*Math.pow((1+((rvalue)/(nvalue))),nvalue*tvalue)+.1)||
+						    if((Avalue<Pvalue*Math.pow((1+((rvalue)/(nvalue))),nvalue*tvalue)+.1)&&
 						    		Avalue>Pvalue*Math.pow((1+((rvalue)/(nvalue))),nvalue*tvalue)-.1)
 						    {
 						    	result.setText("Yes, this is true!");
@@ -261,7 +317,9 @@ public class InterestCalc extends JFrame {
 						    else {
 						    	result.setText("No, this is false!");
 						    }
-						} catch(NumberFormatException y) {
+						} // If all textFields with values in them cannot be parsed to 
+						  // doubles, throw a NumberFormatException 
+						catch(NumberFormatException y) {
 							result.setText("Please enter valid numeric inputs for all fields");
 					}
 					}
@@ -269,10 +327,10 @@ public class InterestCalc extends JFrame {
 						result.setText("<html>This is not a valid input.<br> All but one fields should be filled in</html>");
 					}
 		    	}		
-		        }
-	        }
-    	}
-	}
+		    }
+	    }
+    }
+}
 
 
 
