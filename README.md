@@ -1,10 +1,11 @@
 # CompoundingInterestCalculator
 User interacts with a Java GUI to calculate future money values based on initial deposit, interest rate, frequency of compounding, and total length of time 
 
-## Installing
 
-Pull the directory as is.
+## Example Execution
+![When the program is launched, this GUI is displayed.  The user types into text boxes to interact with calculator.](Example.png)
 
+![Second Example](Example2.png)
 
 ## Implementation
 To handle actions, class actionHandler was declared as a subclass of actionListener.  Action handlers are attached to the 'calculate' button, as well as the 'continuous' and 'non-continuous' toggle buttons.  Upon a click, the method actionPerformed() is called and this method searches for the source of the click.  If the source of the click is determined to be the 'calculate' button, the method checks to see whether user selected the 'continuous' or 'non-continuous' toggle button. If 'continuous' is selected, the equation A = P(1+(r/n))^(nt) is used in the calculation; if 'non-continuous' is selected, the equation A = Pe^(rt) is used in the calculation step.  <br/>
