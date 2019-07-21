@@ -25,6 +25,8 @@ This project is licensed under the MIT License. The rest are copyright/licensed 
 
 ## Acknowledgments
 
+* https://www.thecalculatorsite.com/articles/finance/compound-interest-formula.php
+
 
 
 
